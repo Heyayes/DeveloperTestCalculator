@@ -8,7 +8,7 @@ import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.EvaluationException;
 
 
-public class MainTest {
+public class TestEvaluator {
 
     public static void main(String[] args) {
         int a = 1 + 1 + 1;
