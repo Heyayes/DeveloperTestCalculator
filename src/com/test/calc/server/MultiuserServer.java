@@ -1,29 +1,24 @@
 package com.test.calc.server;
 
 /*
- *
  * Creating by Stanislav Shakun on 25 jul 2015
  *
- * MultiServer class implementing multiuser server that may
- * recieve math statements and send answer to clients.
+ * MultiServer class implementing multiuser server, which recieve math statements
+ * and send answer to clients. Server recieve a string with expression into
+ * Evaluator.evaluate() method and return a string with answer or a message from
+ * the EvaluationException. Evaluator takes a correct math expressions, which
+ * may contain many operators and operands. Count of spaces doesn't matter.
+ * The open bracket must have a close bracket. You can use + - * / operators.
+ * You can read about all functions on web-site:
  *
- * For calculating use net.sourceforge.jeval lib.
- * Main class for calculating is Evaluator.
- * Evaluator has method evaluate(String) that recieve string
- * with mathemathical or boolean statement and return answer or
- * EvaluatorException. Evaluator has many
+ * http://jeval.sourceforge.net/docs/api/index.html
+ *
  *
  */
 
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
 import java.lang.Thread;
-import net.sourceforge.jeval.Evaluator;
-import net.sourceforge.jeval.EvaluationException;
-import junit.framework.TestCase;
+
 
 public class MultiuserServer{
 	static ServerSocket sSocket;
@@ -32,8 +27,8 @@ public static void main(String[] args) {
 	int port = 4444;
 	
 	try {
-		if (args.length != 0)
-			port = Integer.parseInt(args[0]);
+        if (args.length != 0)
+            port = Integer.parseInt(args[0]);
 
 		//Creating new server socket
 		sSocket = new ServerSocket(port);
@@ -46,58 +41,3 @@ public static void main(String[] args) {
 }
 }
 
-
-/*
-* Defined class for string-parsing math calculations from net.sourceforge.jeval
-*
-* Main method of Evaluator class is .evalueta()
-* Them take String with statement as param.
-*
-* Return answer or exception(EvaluateException)
-*
-*/
-
-class clientCatcher extends Thread{
-    private BufferedReader in;
-	private PrintWriter out;
-	private Socket clientSocket;
-
-    clientCatcher(Socket soc){
-	    this.clientSocket = soc;
-    }
-
-
-    public void run(){
-        try{
-			in = new BufferedReader(new
-			     InputStreamReader(clientSocket.getInputStream()));
-			out = new PrintWriter(
-				  clientSocket.getOutputStream(), true);
-
-	        Evaluator calculate = new Evaluator(); //new Evaluator
-	        String Expression;
-
-
-//Recieving statement from client side, evaluating and sending result
-            while ((Expression=in.readLine())!=null){
-		        try{
-		            out.println(calculate.evaluate(Expression));
-	            } catch (EvaluationException ee){
-	        	    out.println(ee.getMessage());
-		        }
-
-		        if (Expression.equalsIgnoreCase("exit")){
-			        break;
-		        }
-	        }
-
-	        in.close();
-	        out.close();
-	        System.out.println("Client disconected.");
-	        clientSocket.close();
-
-        } catch (Exception e) {
-			System.out.println("Nihrena ne vishlo — "+ e);
-		}
-}
-}

@@ -2,6 +2,9 @@ package com.test.calc.client;
 
 /**
  * Created by stshakun on 25.07.15.
+ *
+ * This class have a method ConconnectToServer() for connect to server
+ * method calculate() for send an expression to calculating
  */
 import java.net.Socket;
 import java.io.IOException;
@@ -19,39 +22,37 @@ class Client {
         try {
             soc = new Socket("localhost", 4444);
             System.out.println("Connection established");
-            createInOut();
-
+            createInputAndOutput();
         } catch (IOException e) {
             System.out.println("Not Connection");
-            System.exit(-1);}
+            System.exit(-1);
+        }
     }
 
 
-//Creating socket for connecting to server with defined adress and defined port
-    static void connectToServer(String serverAddress, String sPort) throws IOException{
+//Creating socket to connect server with defined adress and port
+// Опшсать здесь функцшю подключеншя клшента
 
+    static void connectToServer(String serverAddress, String sPort)
+            throws IOException {
         int port=Integer.parseInt(sPort);
         soc = new Socket(serverAddress, port);
         System.out.println("Connection established");
-        createInOut();
-
-
+        createInputAndOutput();
     }
 
 
-    static String calculate(String s) throws Exception{
+    public static String calculate(String s) throws Exception {
         out.println(s);
-
         return in.readLine();
 
     }
 
-    static void createInOut() throws IOException{
-
-            in = new BufferedReader(new
-                    InputStreamReader(soc.getInputStream()));
-            out = new PrintWriter(soc.getOutputStream(), true);
-            reader = new BufferedReader(new
+    static void createInputAndOutput() throws IOException {
+        in = new BufferedReader(new
+                InputStreamReader(soc.getInputStream()));
+        out = new PrintWriter(soc.getOutputStream(), true);
+        reader = new BufferedReader(new
                 InputStreamReader(System.in));
 
     }
