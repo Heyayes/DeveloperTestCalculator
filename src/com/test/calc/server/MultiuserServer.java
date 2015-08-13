@@ -4,13 +4,14 @@ package com.test.calc.server;
  * Creating by Stanislav Shakun on 25 jul 2015
  *
  * MultiServer class implementing multiuser server, which recieve math statements
- * and send answer to clients. Server recieve a string with expression into
- * Evaluator.evaluate() method and return a string with answer or a message from
- * the EvaluationException. Evaluator takes a correct math expressions, which
- * may contain many operators and operands. Count of spaces doesn't matter.
- * The open bracket must have a close bracket. You can use + - * / operators.
- * You can read about all functions on web-site:
+ * and send answer to clients. Server recieves the string contains the expression
+ * into Evaluator.evaluate() handler and returns the string with the answer
+ * or the message from the EvaluationException.
+ * Evaluator takes a correct math expressions, which may contain many operators
+ * and operands. Count of spaces doesn't matter. The open bracket must have the
+ * close bracket. You can use + - * / operators. A negative number defines by "-".
  *
+ * You can read more about JEval functions on web-site:
  * http://jeval.sourceforge.net/docs/api/index.html
  *
  *
