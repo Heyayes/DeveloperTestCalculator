@@ -1,0 +1,57 @@
+<project name="Java developer test" default="build" basedir=".">
+    <property file="build.properties"/>
+    <path id="libs">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="classpath">
+        <fileset dir="${jar.dir}" includes="**/*.jar"/>
+    </path>
+
+
+    <target name="build" depends="clear">
+        <mkdir dir="${class.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+        <javac destdir="${class.dir}" includeantruntime="false">
+            <src path="${basedir}/src"/>
+            <classpath refid="libs"/>
+            <classpath location="${jar.dir}"/>
+        </javac>
+    </target>
+
+    <target name="clear">
+        <delete dir="${class.dir}"/>
+
+    </target>
+
+    <target name="unjar" depends="clear,build">
+        <unzip src="${lib.dir}/jeval.jar" dest="${class.dir}"/>
+        <delete dir="${class.dir}/META-INF"/>
+
+    </target>
+
+    <target name="jar" depends="build,unjar">
+        <delete dir="${jar.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+        <copy file="${lib.dir}/jeval.jar" todir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${title}.jar" basedir="${class.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java classname="${main.class}" fork="true">
+            <!--arg value="${arg0}"/-->
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${title}.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+
+</project>

@@ -19,6 +19,13 @@ package com.test.calc.server;
 
 import java.net.ServerSocket;
 import java.lang.Thread;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import net.sourceforge.jeval.EvaluationException;
+import net.sourceforge.jeval.Evaluator;
 
 
 public class MultiuserServer{
@@ -28,17 +35,66 @@ public static void main(String[] args) {
 	int port = 4444;
 	
 	try {
-        if (args.length != 0)
-            port = Integer.parseInt(args[0]);
+		if (args.length != 0) {   //Taking params from the shell command line
+			port = Integer.parseInt(args[0]);
+		}
 
-		//Creating new server socket
-		sSocket = new ServerSocket(port);
+		sSocket = new ServerSocket(port); //Creating a new server socket
 		System.out.println("Server socket is created.");
 
-		//Catching of new client and run new thread
-		while (true) new Thread(new clientCatcher(sSocket.accept())).start();
-	} catch (Exception e) {System.out.println("Port is busy");}
+
+		while (true) {     //Catching a client and running a new thread
+			new Thread(new СlientCatcher(sSocket.accept())).start();
+		}
+	} catch (Exception e) {
+		System.out.println("Port is busy");
+	}
 
 }
 }
 
+/*
+ * Implementing user thread. One client – one thread.
+ *
+ */
+class СlientCatcher extends Thread {
+	BufferedReader in;
+	PrintWriter out;
+	private Socket clientSocket;
+
+	СlientCatcher(Socket soc) {
+		this.clientSocket = soc;
+	}
+
+	public void run() {
+		try {
+			in = new BufferedReader(new
+					InputStreamReader(clientSocket.getInputStream()));
+			out = new PrintWriter(
+					clientSocket.getOutputStream(), true);
+
+			Evaluator calculate = new Evaluator();
+			String inputExpression;
+
+			while ((inputExpression = in.readLine()) != null) {
+				try {
+					out.println(calculate.evaluate(inputExpression));
+				} catch (EvaluationException ee) {
+					out.println(ee.getMessage());
+				}
+
+				if (inputExpression.equalsIgnoreCase("exit")) {
+					break;
+				}
+			}
+
+			in.close();
+			out.close();
+			System.out.println("Client disconected.");
+			clientSocket.close();
+
+		} catch (Exception e) {
+			System.out.println("Client is not connected: " + e);
+		}
+	}
+}

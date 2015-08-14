@@ -9,11 +9,15 @@ import static com.test.calc.client.Client.calculate;
 
 /**
  * Created by stshakun on 22.07.15.
+ *
+ * Class implementing user interface for inputing expressions and recieving
+ * answers. For connecting server and sending expressions using Client class.
+ *
  */
 public class ClientForm extends JFrame implements KeyListener, WindowListener{
     JTextField writeField;
     JTextArea resultField;
-    String Expression="";
+    String expression = "";
 
     public static void main(String[] args) {
        javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -24,19 +28,19 @@ public class ClientForm extends JFrame implements KeyListener, WindowListener{
     }
 
     public ClientForm(String nameOfWindow) {
-        super(nameOfWindow);
+        super(nameOfWindow);  //inputing name of window
     }
 
     private void addComponents(){
-        writeField = new JTextField();
+        writeField = new JTextField();   //creating input field
         writeField.addKeyListener(this);
         writeField.setColumns(30);
 
-        resultField = new JTextArea(12,30);
+        resultField = new JTextArea(12, 30); //creating result field
 
         getContentPane().add(writeField, BorderLayout.PAGE_START);
         getContentPane().add(resultField, BorderLayout.CENTER);
-        getContentPane().setPreferredSize(new Dimension(200, 299));
+        getContentPane().setPreferredSize(new Dimension(300, 500));
 
         addWindowListener(this);
     }
@@ -55,11 +59,11 @@ public class ClientForm extends JFrame implements KeyListener, WindowListener{
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == 10) {
-            Expression = writeField.getText();
+            expression = writeField.getText();
             try {
                 resultField.setText(
-                        Expression + "="
-                                + calculate(Expression)//Insert result
+                        expression + "="
+                                + calculate(expression)//Insert result
                                 //from server.
                                 + "\n"                        //Go to next string.
                                 + resultField.getText());     //Insert old data.
@@ -72,7 +76,7 @@ public class ClientForm extends JFrame implements KeyListener, WindowListener{
         }
 
         if (e.getKeyCode() == 38) {
-            writeField.setText(Expression);
+            writeField.setText(expression);
         }
 
         if (e.getKeyCode() == 40) {
@@ -82,7 +86,10 @@ public class ClientForm extends JFrame implements KeyListener, WindowListener{
     }
 
 
-    public void windowOpened(WindowEvent e) {Client.connectToServer();}
+    public void windowOpened(WindowEvent e) {
+        Client.connectToServer();
+    }
+
     public void windowClosing(WindowEvent e) {}
     public void windowClosed(WindowEvent e) {}
     public void windowIconified(WindowEvent e) {}
