@@ -5,15 +5,37 @@
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import junit.framework.TestCase;
-import org.junit.Test;
+//import org.junit.*;
 
 
 
 public class TestEvaluator extends TestCase {
     static Evaluator calculator = new Evaluator();
 
+    //@Test
+    public static void testExceptions() throws EvaluationException {
+        try {
+            calculator.evaluate("7/0");
+        } catch (EvaluationException e) {
+            assertEquals("Divide by zero exception", "Infinite", e.getMessage());
+        }
 
-    public static void testEvaluator() throws EvaluationException {
+        try {
+            calculator.evaluate("power(1,2)");
+        } catch (EvaluationException e) {
+            assertEquals("A function is not defined (index=5).", e.getMessage());
+        }
+
+        try {
+            calculator.evaluate(")");
+        } catch (EvaluationException e) {
+            assertEquals("Expression is invalid.", e.getMessage());
+        }
+
+    }
+
+    //@Test
+    public static void testCorrectExceptions() throws EvaluationException {
         assertEquals("4.0", calculator.evaluate("4"));
         assertEquals("-4.0", calculator.evaluate("-4"));
         assertEquals("5.0", calculator.evaluate("4 + 1"));
@@ -64,4 +86,6 @@ public class TestEvaluator extends TestCase {
         assertEquals("6.0", calculator.evaluate("min(min(9,8),min(7,6))"));
 
     }
+
+
 }

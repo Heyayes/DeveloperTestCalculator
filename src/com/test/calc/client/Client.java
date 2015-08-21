@@ -41,8 +41,7 @@ class Client {
         createInputAndOutput();
     }
 
-
-    public static String calculate(String s) throws Exception {
+    static String calculate(String s) throws Exception {
         out.println(s);
         return in.readLine();
 
@@ -51,9 +50,10 @@ class Client {
     static void createInputAndOutput() throws IOException {
         in = new BufferedReader(new
                 InputStreamReader(soc.getInputStream()));
+
         out = new PrintWriter(soc.getOutputStream(), true);
+
         reader = new BufferedReader(new
                 InputStreamReader(System.in));
-
     }
 }

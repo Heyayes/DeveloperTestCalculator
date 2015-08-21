@@ -9,7 +9,9 @@ package com.test.calc.server;
  * or the message from the EvaluationException.
  * Evaluator takes a correct math expressions, which may contain many operators
  * and operands. Count of spaces doesn't matter. The open bracket must have the
- * close bracket. You can use + - * / operators. A negative number defines by "-".
+ * close bracket. You can use + - * / operators. A neg number defines by "-".
+ * Evaluator class is includes mathemathical functions like in java.math lib:
+ * pow(a,b), sqrt(a), sin(a), cos(a) and other.
  *
  * You can read more about JEval functions on web-site:
  * http://jeval.sourceforge.net/docs/api/index.html
@@ -90,8 +92,8 @@ class СlientCatcher extends Thread {
 
 			in.close();
 			out.close();
-			System.out.println("Client disconected.");
-			clientSocket.close();
+            System.out.println("Client is disconected.");
+            clientSocket.close();
 
 		} catch (Exception e) {
 			System.out.println("Client is not connected: " + e);
