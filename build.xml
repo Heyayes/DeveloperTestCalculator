@@ -23,6 +23,7 @@
 
     <target name="clear">
         <delete dir="${class.dir}"/>
+        <delete dir="${test.class.dir}"
 
     </target>
 
