@@ -31,7 +31,7 @@ class Client {
 
 
 //Creating socket to connect server with defined adress and port
-// Опшсать здесь функцшю подключеншя клшента
+// Опшсать здесь функцшю подключеншя клиента
 
     static void connectToServer(String serverAddress, String sPort)
             throws IOException {

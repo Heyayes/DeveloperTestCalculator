@@ -24,9 +24,18 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import com.sun.xml.internal.ws.developer.ServerSideException;
+import org.apache.http.*;
+
+
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 
+
+class HttpServer {
+    static org.apache.http.impl.DefaultHttpServerConnection serverConnection;
+
+}
 
 public class MultiuserServer{
 	static ServerSocket sSocket;
